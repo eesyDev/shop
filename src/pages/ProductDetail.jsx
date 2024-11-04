@@ -1,8 +1,69 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { AiFillStar, AiOutlineStar, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+
+import { client, urlFor } from '../utils/client';
+import { useStateContext } from '../context/StateContext';
 
 const ProductDetail = () => {
+  const [productData, setProductData] = useState({});
+  const { slug } = useParams();
+  const { onAdd, incrementQty, decrementQty, qty } = useStateContext()
+
+  useEffect(() => {
+      client.fetch(`*[_type == "product" && slug.current == "${slug}"][0]`).then(data => setProductData(data))
+  }, []);
+
+  const { image, name, details, price, _id } = productData;
+
   return (
-    <div>ProductDetail</div>
+    <div>
+      <div className="product-detail-container">
+        <div className="image-gallery">
+          <div className="image-container">
+            { image && <img src={urlFor(image[0])} className='product-detail-image'/> }
+          </div>
+          <div className="small-image-container">
+          { image && image?.map((img, index) => (
+            <img src={urlFor(img)} key={index} className='small-image'/>
+          )) }
+          </div>
+        </div>
+        <div className="product-detail-desc">
+          <h1>{name}</h1>
+          <div className="reviews">
+            <div>
+              <AiFillStar/>
+              <AiFillStar/>
+              <AiFillStar/>
+              <AiOutlineStar/>
+              <AiOutlineStar/>
+            </div>
+            <p>(20)</p>
+          </div>
+          <h4>Details</h4>
+          <p>{details}</p>
+          <p className="price">${price}</p>
+          <div className="quantity">
+            <h3>Quantity</h3>
+            <p className="quantity-desc">
+              <span className="minus" onClick={decrementQty}>
+                <AiOutlineMinus/>
+              </span>
+              <span className="num">{qty}</span>
+              <span className="plus" onClick={incrementQty}>
+                <AiOutlinePlus/>
+              </span>
+            </p>
+          </div>
+          <div className="buttons">
+            <button className="add-to-cart btn" onClick={() => onAdd(productData, qty)}>Add To Cart</button>
+            <button className="buy-now btn">Buy Now</button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
   )
 }
 
