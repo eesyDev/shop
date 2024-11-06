@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { urlFor } from '../utils/client';
 
-const Hero = (props) => {
-  const { smallText, midText, largeText, largeText2, image, buttonText, descr } = props
+const Hero = ({ smallText, midText, largeText, largeText2, image, buttonText, descr }) => {
   return (
     <div className='hero-banner-container'>
         <div>

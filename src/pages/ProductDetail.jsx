@@ -7,6 +7,7 @@ import { useStateContext } from '../context/StateContext';
 
 const ProductDetail = () => {
   const [productData, setProductData] = useState({});
+  const [imgIndex, setImgIndex] = useState(0)
   const { slug } = useParams();
   const { onAdd, incrementQty, decrementQty, qty } = useStateContext()
 
@@ -21,11 +22,11 @@ const ProductDetail = () => {
       <div className="product-detail-container">
         <div className="image-gallery">
           <div className="image-container">
-            { image && <img src={urlFor(image[0])} className='product-detail-image'/> }
+            { image && <img src={urlFor(image[imgIndex])} className='product-detail-image'/> }
           </div>
           <div className="small-image-container">
           { image && image?.map((img, index) => (
-            <img src={urlFor(img)} key={index} className='small-image'/>
+            <img src={urlFor(img)} key={index} className={index === imgIndex ? 'small-image selected-image' : 'small-image'} onMouseEnter={() => setImgIndex(index)}/>
           )) }
           </div>
         </div>

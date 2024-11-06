@@ -5,14 +5,14 @@ import Cart from './Cart';
 import { useStateContext } from '../context/StateContext';
 
 const Header = () => {
-  const { showCart, setShowCart } = useStateContext();
+  const { showCart, setShowCart, totalQty } = useStateContext();
   
   return (
     <div className='navbar-container'>
         <Link to="/">AminaTechnoShop</Link>
         <button className='cart-icon' onClick={() => setShowCart(true)}>
             <AiOutlineShopping/>
-            <span className="cart-item-qty">5</span>
+            <span className="cart-item-qty">{totalQty}</span>
         </button>
         {
           showCart && <Cart setShowCart={setShowCart}/>
