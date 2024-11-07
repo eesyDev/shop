@@ -20,7 +20,7 @@ const Cart = ({ setShowCart }) => {
 					<div className="empty-cart">
 						<AiOutlineShopping/>
 						<h3>Your cart is empty</h3>
-						<button className="btn">Continue to shopping</button>
+						<button className="btn" onClick={() => setShowCart(false)}>Continue to shopping</button>
 					</div>
 				}
 				<div className="product-container">

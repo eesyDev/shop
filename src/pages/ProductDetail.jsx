@@ -7,12 +7,15 @@ import { useStateContext } from '../context/StateContext';
 
 const ProductDetail = () => {
   const [productData, setProductData] = useState({});
+  const [productsData, setProductsData] = useState([]);
   const [imgIndex, setImgIndex] = useState(0)
   const { slug } = useParams();
   const { onAdd, incrementQty, decrementQty, qty } = useStateContext()
 
   useEffect(() => {
-      client.fetch(`*[_type == "product" && slug.current == "${slug}"][0]`).then(data => setProductData(data))
+      client.fetch(`*[_type == "product" && slug.current == "${slug}"][0]`).then(data => setProductData(data));
+
+      client.fetch(`*[_type == "product"]`).then(data => setProductsData(data));
   }, []);
 
   const { image, name, details, price, _id } = productData;
@@ -63,7 +66,12 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-      
+      <div className="maylike-products-wrapepr">
+          <h2>You may also like</h2>
+          <div className="marquee">
+            <div className="maylike-products-container track"></div>
+          </div>
+      </div>
     </div>
   )
 }

@@ -2,19 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { client } from '../utils/client';
 import Hero from '../components/Hero';
 import Product from '../components/Product';
+import BottomBanner from '../components/BottomBanner';
 
 const Home = () => {
     const [bannerData, setBannerData] = useState({});
+    const [bannerData2, setBannerData2] = useState({});
     const [productData, setProductData] = useState([]);
 
     useEffect(() => {
         client.fetch('*[_type == "banner"]').then(data => setBannerData(data[1]));
 
         client.fetch('*[_type == "product"]').then(data => setProductData(data));
-
+        
+        client.fetch('*[_type == "banner"]').then(data => setBannerData2(data[0]));
     }, []);
 
-    console.log(productData)
+    console.log(bannerData2)
   return (
     <div>
       <Hero
@@ -42,6 +45,9 @@ const Home = () => {
           ))
         }
       </div>
+      <BottomBanner
+        footerBannerData={bannerData2}
+      />
     </div>
   )
 }
